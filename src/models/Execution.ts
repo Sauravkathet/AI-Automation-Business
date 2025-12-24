@@ -29,7 +29,6 @@ export interface IExecution extends Document {
   startedAt: Date;
   completedAt?: Date;
   duration?: number;
-  save(): Promise<IExecution>;
 }
 
 const ExecutionSchema = new Schema<IExecution>(
