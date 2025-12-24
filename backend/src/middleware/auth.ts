@@ -1,13 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config/env';
-import User from '../models/User';
+import User, { IUser } from '../models/User';
 import logger from '../utils/logger';
 
 interface JwtPayload {
   userId: string;
   organizationId: string;
   role: string;
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+      organization?: any;
+      organizationId?: string;
+    }
+  }
 }
 
 export const authenticate = async (
@@ -62,7 +72,7 @@ export const authenticate = async (
 
 export const optionalAuth = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {

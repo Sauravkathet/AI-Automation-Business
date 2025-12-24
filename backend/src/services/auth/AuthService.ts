@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { config } from '../../config/env';
-import User, { IUser } from '../../models/User';
+import User from '../../models/User';
 import Organization from '../../models/Organization';
 import { generateToken, hashToken } from '../../utils/crypto';
 import { UserRole } from '../../types/workflow.types';
@@ -8,18 +8,17 @@ import logger from '../../utils/logger';
 import { AppError } from '../../middleware/errorHandler';
 
 export class AuthService {
-  // Generate JWT tokens
   generateTokens(userId: string, organizationId: string, role: string) {
     const accessToken = jwt.sign(
       { userId, organizationId, role },
       config.JWT_ACCESS_SECRET,
-      { expiresIn: config.JWT_ACCESS_EXPIRY }
+      { expiresIn: config.JWT_ACCESS_EXPIRY } as jwt.SignOptions
     );
 
     const refreshToken = jwt.sign(
       { userId, organizationId, role },
       config.JWT_REFRESH_SECRET,
-      { expiresIn: config.JWT_REFRESH_EXPIRY }
+      { expiresIn: config.JWT_REFRESH_EXPIRY } as jwt.SignOptions
     );
 
     return { accessToken, refreshToken };

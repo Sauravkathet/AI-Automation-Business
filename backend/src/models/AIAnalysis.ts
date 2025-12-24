@@ -59,4 +59,18 @@ const AIAnalysisSchema = new Schema<IAIAnalysis>(
       type: String,
       required: true,
     },
-    tokensUsed:
+    tokensUsed: {
+      type: Number,
+      required: true,
+    },
+    latency: {
+      type: Number,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.model<IAIAnalysis>('AIAnalysis', AIAnalysisSchema);

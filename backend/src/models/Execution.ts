@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 import { ExecutionStatus, StepStatus, StepType } from '../types/workflow.types';
 
 export interface IExecution extends Document {
+  _id: mongoose.Types.ObjectId;
   organizationId: mongoose.Types.ObjectId;
   workflowId: mongoose.Types.ObjectId;
   trigger: {
@@ -91,7 +92,6 @@ const ExecutionSchema = new Schema<IExecution>(
   }
 );
 
-// Compound indexes
 ExecutionSchema.index({ organizationId: 1, workflowId: 1, createdAt: -1 });
 ExecutionSchema.index({ organizationId: 1, status: 1 });
 

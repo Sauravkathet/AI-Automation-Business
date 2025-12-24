@@ -1,39 +1,10 @@
-import nodemailer from 'nodemailer';
 import { config } from '../../config/env';
 import logger from '../../utils/logger';
 import { emailQueue } from '../../config/queue';
 
 export class EmailService {
-  private transporter: nodemailer.Transporter;
 
-  constructor() {
-    this.transporter = nodemailer.createTransport({
-      host: config.SMTP_HOST,
-      port: config.SMTP_PORT,
-      secure: false,
-      auth: {
-        user: config.SMTP_USER,
-        pass: config.SMTP_PASSWORD,
-      },
-    });
-  }
 
-  // Send email directly
-  private async sendEmail(to: string, subject: string, html: string) {
-    try {
-      await this.transporter.sendMail({
-        from: config.EMAIL_FROM,
-        to,
-        subject,
-        html,
-      });
-
-      logger.info('Email sent successfully', { to, subject });
-    } catch (error) {
-      logger.error('Email sending error:', error);
-      throw error;
-    }
-  }
 
   // Queue email for async sending
   async queueEmail(to: string, subject: string, html: string) {
