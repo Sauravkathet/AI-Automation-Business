@@ -17,7 +17,7 @@ export const errorHandler = (
   err: Error | AppError,
   req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   let statusCode = 500;
   let message = 'Internal server error';
@@ -37,6 +37,7 @@ export const errorHandler = (
     method: req.method,
     userId: req.user?.id,
     organizationId: req.organizationId,
+    isOperational,
   });
 
   // Send response
@@ -53,9 +54,9 @@ export const errorHandler = (
 };
 
 export const notFoundHandler = (
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ): void => {
   res.status(404).json({ error: 'Resource not found' });
 };

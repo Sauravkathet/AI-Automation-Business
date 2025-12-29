@@ -1,13 +1,8 @@
 import rateLimit from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
-import redis from '../config/redis';
 import { config } from '../config/env';
+import { Request } from 'express';
 
 export const generalLimiter = rateLimit({
-  store: new RedisStore({
-    client: redis,
-    prefix: 'rate:general:',
-  }),
   windowMs: config.RATE_LIMIT_WINDOW_MS,
   max: config.RATE_LIMIT_MAX_REQUESTS,
   message: 'Too many requests, please try again later',
@@ -16,10 +11,6 @@ export const generalLimiter = rateLimit({
 });
 
 export const authLimiter = rateLimit({
-  store: new RedisStore({
-    client: redis,
-    prefix: 'rate:auth:',
-  }),
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5,
   skipSuccessfulRequests: true,
@@ -27,27 +18,19 @@ export const authLimiter = rateLimit({
 });
 
 export const aiLimiter = rateLimit({
-  store: new RedisStore({
-    client: redis,
-    prefix: 'rate:ai:',
-  }),
   windowMs: 60 * 1000, // 1 minute
   max: 10,
   message: 'Too many AI requests, please slow down',
-  keyGenerator: (req) => {
-    return req.user?.id || req.ip;
+  keyGenerator: (req: Request) => {
+    return req.user?.id || req.ip || 'unknown';
   },
 });
 
 export const webhookLimiter = rateLimit({
-  store: new RedisStore({
-    client: redis,
-    prefix: 'rate:webhook:',
-  }),
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 1000,
   message: 'Webhook rate limit exceeded',
-  keyGenerator: (req) => {
-    return req.params.organizationId || req.ip;
+  keyGenerator: (req: Request) => {
+    return req.params.organizationId || req.ip || 'unknown';
   },
-});
+}); 

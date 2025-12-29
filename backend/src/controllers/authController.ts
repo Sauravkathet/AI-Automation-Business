@@ -3,7 +3,6 @@ import AuthService from '../services/auth/AuthService';
 import EmailService from '../services/auth/EmailService';
 import { asyncHandler } from '../middleware/errorHandler';
 import { config } from '../config/env';
-import logger from '../utils/logger';
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const { email, password, firstName, lastName, organizationName } = req.body;
@@ -102,7 +101,7 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
   });
 });
 
-export const logout = asyncHandler(async (req: Request, res: Response) => {
+export const logout = asyncHandler(async (_req: Request, res: Response) => {
   res.clearCookie('refreshToken');
 
   res.json({
