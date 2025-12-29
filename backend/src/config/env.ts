@@ -26,13 +26,9 @@ interface EnvConfig {
 }
 
 const getEnvVar = (key: string, defaultValue?: string): string => {
-  const raw = process.env[key];
-  const value = (raw === undefined || raw === '') ? defaultValue : raw;
-  if (value === undefined || value === null) {
+  const value = process.env[key] || defaultValue;
+  if (!value) {
     throw new Error(`Missing environment variable: ${key}`);
-  }
-  if ((raw === undefined || raw === '') && defaultValue !== undefined) {
-    console.warn(`Using default value for ${key}; set it in your .env for production`);
   }
   return value;
 };
@@ -41,22 +37,22 @@ export const config: EnvConfig = {
   NODE_ENV: getEnvVar('NODE_ENV', 'development'),
   PORT: parseInt(getEnvVar('PORT', '5000'), 10),
   CLIENT_URL: getEnvVar('CLIENT_URL', 'http://localhost:3000'),
-  MONGODB_URI: getEnvVar('MONGODB_URI', 'mongodb://localhost:27017/workflow-automation'),
-  REDIS_URL: getEnvVar('REDIS_URL', 'redis://localhost:6379'),
-  JWT_ACCESS_SECRET: getEnvVar('JWT_ACCESS_SECRET', 'dev-access-secret'),
-  JWT_REFRESH_SECRET: getEnvVar('JWT_REFRESH_SECRET', 'dev-refresh-secret'),
+  MONGODB_URI: getEnvVar('MONGODB_URI'),
+  REDIS_URL: getEnvVar('REDIS_URL'),
+  JWT_ACCESS_SECRET: getEnvVar('JWT_ACCESS_SECRET'),
+  JWT_REFRESH_SECRET: getEnvVar('JWT_REFRESH_SECRET'),
   JWT_ACCESS_EXPIRY: getEnvVar('JWT_ACCESS_EXPIRY', '15m'),
   JWT_REFRESH_EXPIRY: getEnvVar('JWT_REFRESH_EXPIRY', '7d'),
-  SMTP_HOST: getEnvVar('SMTP_HOST', 'localhost'),
+  SMTP_HOST: getEnvVar('SMTP_HOST'),
   SMTP_PORT: parseInt(getEnvVar('SMTP_PORT', '587'), 10),
-  SMTP_USER: getEnvVar('SMTP_USER', 'user'),
-  SMTP_PASSWORD: getEnvVar('SMTP_PASSWORD', 'pass'),
-  EMAIL_FROM: getEnvVar('EMAIL_FROM', 'noreply@localhost'),
-  ANTHROPIC_API_KEY: getEnvVar('ANTHROPIC_API_KEY', ''),
+  SMTP_USER: getEnvVar('SMTP_USER'),
+  SMTP_PASSWORD: getEnvVar('SMTP_PASSWORD'),
+  EMAIL_FROM: getEnvVar('EMAIL_FROM'),
+  ANTHROPIC_API_KEY: getEnvVar('ANTHROPIC_API_KEY'),
   BCRYPT_ROUNDS: parseInt(getEnvVar('BCRYPT_ROUNDS', '12'), 10),
   RATE_LIMIT_WINDOW_MS: parseInt(getEnvVar('RATE_LIMIT_WINDOW_MS', '60000'), 10),
   RATE_LIMIT_MAX_REQUESTS: parseInt(getEnvVar('RATE_LIMIT_MAX_REQUESTS', '100'), 10),
-  WEBHOOK_SECRET: getEnvVar('WEBHOOK_SECRET', 'dev-webhook-secret'),
+  WEBHOOK_SECRET: getEnvVar('WEBHOOK_SECRET'),
 };
 
 export default config;
