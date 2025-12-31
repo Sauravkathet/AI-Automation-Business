@@ -20,7 +20,7 @@ if (fs.existsSync(distServer)) {
     require('ts-node').register({ transpileOnly: true });
     require(srcServer);
   } catch (err) {
-    console.error('\nError: cannot run TypeScript entrypoint because ts-node is not available.');
+    console.error('\nError: cannot run : please check the datas entrypoint because ts-node is not available.');
     console.error('Install it as a dev dependency: `npm i -D ts-node` or build the project with `npm run build`.');
     console.error(err);
     process.exit(1);
