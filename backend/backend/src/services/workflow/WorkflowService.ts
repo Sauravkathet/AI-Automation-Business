@@ -1,4 +1,4 @@
-import Workflow, { IWorkflow } from '../../models/Workflow';
+import Workflow from '../../models/Workflow';
 import Organization from '../../models/Organization';
 import WorkflowParser from '../ai/WorkflowParser';
 import { WorkflowStatus } from '../../types/workflow.types';

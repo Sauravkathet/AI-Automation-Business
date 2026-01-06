@@ -56,10 +56,10 @@ export class ClaudeService {
         },
       };
     } catch (error: any) {
-      logger.error('Claude API error:', error);
+      logger.error('Claude API error xa:', error);
       
       if (error.status === 429) {
-        throw new AppError(429, 'AI service rate limit exceeded');
+        throw new AppError(429, 'AI service rate limit exceeded, please try again later');
       }
       
       throw new AppError(500, 'AI service unavailable');

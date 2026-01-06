@@ -69,7 +69,7 @@ Classify this message's intent.`;
     }
   }
 
-  // Batch classification for multiple messages
+ 
   async classifyBatch(messages: string[]): Promise<AIMetadata[]> {
     try {
       const classifications = await Promise.all(

@@ -66,10 +66,10 @@ export class ClaudeService {
     }
   }
 
-  // Parse JSON response safely
+
   parseJsonResponse(content: string): any {
     try {
-      // Remove markdown code blocks if present
+
       const cleaned = content
         .replace(/```json\n?/g, '')
         .replace(/```\n?/g, '')
